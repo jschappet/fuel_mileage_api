@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuel Mileage Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            display: grid;
+            gap: 10px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button[type="button"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button[type="button"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+        <!-- Your HTML form here -->
+        <div id="resultContainer" style="display: none;">
+            <p id="miles_driven_result"></p>
+            <p id="gallons_result"></p>
+            <p id="total_cost_result"></p>
+            <h3>Calculated Results:</h3>
+            <p id="milesPerGallon"></p>
+            <p id="costPerMile"></p>
+        </div>
+
+    <div class="container"  id="formContainer" >
+        <h2>Fill Up Form</h2>
+        <form id="fillupForm">
+            <label for="car_id">Car ID:</label>
+            <input type="text" id="car_id" name="car_id" required>
+
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="miles_driven">Miles Driven:</label>
+            <input type="number" id="miles_driven" name="miles_driven" required>
+
+            <label for="current_odometer_reading">Current Odometer Reading:</label>
+            <input type="number" id="current_odometer_reading" name="current_odometer_reading" required>
+
+            <label for="gallons">Gallons:</label>
+            <input type="number" id="gallons" name="gallons" required>
+
+            <label for="total_cost">Total Cost:</label>
+            <input type="number" id="total_cost" name="total_cost">
+
+            <label for="cost_per_gallon">Cost Per Gallon:</label>
+            <input type="number" id="cost_per_gallon" name="cost_per_gallon">
+
+            <button type="button" onclick="submitForm()">Submit</button>
+        </form>
+    </div>
+    <script>
+         function submitForm() {
+            // Collect form data
+            const car_id = document.getElementById("car_id").value;
+            const username = document.getElementById("username").value;
+            const miles_driven = parseFloat(document.getElementById("miles_driven").value);
+            const current_odometer_reading = parseFloat(document.getElementById("current_odometer_reading").value);
+            const gallons = parseFloat(document.getElementById("gallons").value);
+            const total_cost = parseFloat(document.getElementById("total_cost").value);
+            const cost_per_gallon = parseFloat(document.getElementById("cost_per_gallon").value);
+            
+            // Create JSON object
+            const data = {
+                car_id: car_id,
+                username: username,
+                miles_driven: miles_driven,
+                current_odometer_reading: current_odometer_reading,
+                gallons: gallons,
+                total_cost: total_cost,
+                cost_per_gallon: cost_per_gallon
+            };
+
+            // Send data as JSON via fetch API
+            fetch('/fillup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json()) // Parse response JSON
+            .then(result => {
+
+                console.log(total_cost);
+                console.log(cost_per_gallon);
+                console.log(miles_driven);
+                // Update calculated results on the page
+                document.getElementById("total_cost_result").innerText = "Total: " + total_cost;
+
+                document.getElementById("gallons_result").innerText = "Gallons: " + gallons;
+                document.getElementById("miles_driven_result").innerText = "Miles: " + miles_driven;
+                
+                
+                document.getElementById("milesPerGallon").innerText = "Miles/Gallon: " + (miles_driven  /  gallons);
+                document.getElementById("costPerMile").innerText = "Cost/Mile: " + (total_cost /  miles_driven);
+
+                // Show the result container
+                document.getElementById("resultContainer").style.display = "block";
+                document.getElementById("formContainer").style.display = "none";
+            })
+            .catch(error => {
+                console.error("Error submitting form:", error);
+            });
+        }
+</script>
+</body>
+</html>

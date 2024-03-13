@@ -1,0 +1,16 @@
+
+POST  http://localhost:8000/fillup/ HTTP/1.1
+content-type: application/json
+ 
+{
+  "car_id": "JIMMYS_VAN",
+  "username": "schappet",
+  "miles_driven": 250.5,
+  "gallons": 100,
+  "current_odometer_reading": 15000.0,
+  "miles": 250.5,
+  "total_cost": 40.0,
+  "cost_per_gallon": 3.5
+}
+
+
