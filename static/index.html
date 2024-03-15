@@ -67,10 +67,13 @@
         <h2>Fill Up Form</h2>
         <form id="fillupForm">
             <label for="car_id">Car ID:</label>
-            <input type="text" id="car_id" name="car_id" required>
+            <select id="car_id" name="car_id" required>
+                <option value="DODGE_VAN">Jimmy's Van</option>
+                <option value="MAZDA_5">Jenny's Car</option>
+            </select><br>
 
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+            <input type="hidden" value="default" id="username" name="username" required>
 
             <label for="miles_driven">Miles Driven:</label>
             <input type="number" id="miles_driven" name="miles_driven" required>
