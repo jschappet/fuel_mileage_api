@@ -182,10 +182,10 @@ pub fn stage() -> rocket::fairing::AdHoc {
     rocket::fairing::AdHoc::on_ignite("JSON", |rocket| async {
         rocket
             .mount(
-                "/fillup",
+                "/fillup/data",
                 routes![new_car, update, get, fillup, get_car],
             )
-            .register("/fillup", catchers![not_found])
+            .register("/fillup/data", catchers![not_found])
             .manage(MessageList::new(vec![]))
     })
 }
